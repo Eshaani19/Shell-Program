@@ -1,4 +1,7 @@
-#include "rush.h"
+// Eshaani Arvind U88155472
+// This file contains the main function and the function to run the shell
+
+#include "main.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,7 +16,7 @@ int main(int argc, char *argv[])
 void shell(){
     char *input;
     char **args;
-    int status = 1:
+    int status = 1;
 
     do {
         printf("rush> ");

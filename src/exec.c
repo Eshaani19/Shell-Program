@@ -1,14 +1,14 @@
-#include "rush.h"
+#include "main.h"
 
 char *builtin_str[] = {"exit", "cd","path"};
 int (*builtin_func[])(char **) = {&exit_shell, &change_directory, &update_path};
 
 int execute_command(char **args){
-    if (run_builtin_command(args)){
-        continue;
+    if (builtin_command(args)){
+        ;
     }
     else{
-        pid_t pid, wpid;
+        pid_t pid;
         int status;
         pid = fork();
         if (pid == 0){
@@ -25,7 +25,7 @@ int execute_command(char **args){
         }
         else{
             do{
-                wpid = waitpid(pid, &status, WUNTRACED);
+                waitpid(pid, &status, WUNTRACED);
             } while (!WIFEXITED(status) && !WIFSIGNALED(status));
     
         }
@@ -34,9 +34,12 @@ int execute_command(char **args){
 }
 
 int builtin_command(char **args){
+    int flag = 0;
     for (int i = 0; i <sizeof(builtin_str) / sizeof(char * ); i++){
         if (strcmp(args[0], builtin_str[i]) == 0){
             (*builtin_func[i])(args);
+            flag = 1;
         }
     }
+    return flag;
 }

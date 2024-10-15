@@ -1,4 +1,4 @@
-#include "rush.h"
+#include "main.h"
 
 char *get_input(){
     char *line = NULL;
@@ -7,7 +7,7 @@ char *get_input(){
     return line;
 }
 
-char **parse_input(char *line){
+char **read_input(char *line){
     int bufsize = MAX_ARGS, position = 0;
     char **tokens = malloc(bufsize * sizeof(char*));
     char *token;

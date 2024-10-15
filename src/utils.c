@@ -1,4 +1,4 @@
-#include "rush.h"
+#include "main.h"
 
 void print_error(){
     write(STDERR_FILENO, ERROR_MESSAGE, strlen(ERROR_MESSAGE));
@@ -10,7 +10,7 @@ int redirect_output(char **args){
             print_error();
             return 0;
         }
-        int fd = open(args[i+1]m O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
+        int fd = open(args[i+1], O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
         if (fd < 0){
             print_error();
             return 0;
