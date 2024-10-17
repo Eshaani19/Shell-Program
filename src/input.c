@@ -1,36 +1,30 @@
 #include "main.h"
+#include <ctype.h>
 
-char *get_input(){
-    char *line = NULL;
-    size_t bufsize = 0;
-    getline(&line, &bufsize, stdin);
-    return line;
-}
-
-char **read_input(char *line){
-    int bufsize = MAX_ARGS, position = 0;
+char **read_input(char *input) {
+    int bufsize = MAX_ARGS;
+    int position = 0;
     char **tokens = malloc(bufsize * sizeof(char*));
     char *token;
+    char *rest = input;
 
-    if (!tokens){
+    if (!tokens) {
         print_error();
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
-    token = strtok(line, DELIMITERS);
-    while (token != NULL){
-        tokens[position] = token;
+    while ((token = strtok_r(rest, " \t\r\n", &rest))) {
+        tokens[position] = strdup(token);
         position++;
 
-        if (position >= bufsize){
+        if (position >= bufsize) {
             bufsize += MAX_ARGS;
-            tokens = realloc(token, bufsize * sizeof(char*));
-            if (!tokens){
+            tokens = realloc(tokens, bufsize * sizeof(char*));
+            if (!tokens) {
                 print_error();
-                exit(1);
+                exit(EXIT_FAILURE);
             }
         }
-        token = strtok(NULL, DELIMITERS);
     }
     tokens[position] = NULL;
     return tokens;
